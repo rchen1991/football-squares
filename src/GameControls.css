@@ -1,0 +1,42 @@
+.game-controls {
+  min-width: 480px;
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.number-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.score-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.score-inputs {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  justify-content: space-between
+}
+
+.score-inputs > input {
+    flex-grow: 1;
+    max-width: 180px;
+    font-size: 30px;
+}
+
+.team-name-controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.team-name-controls > input {
+    flex-grow: 1;
+    max-width: 360px;
+}

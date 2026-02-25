@@ -1,0 +1,45 @@
+#root {
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.game-app {
+  display: flex;
+  gap: 24px;
+
+  @media (max-width: 1025px) {
+    flex-direction: column;
+  }
+}
+
+.game-grid {
+  border: 2px solid rgba(0,0,0,0.8);
+}
+
+.game-row-1 {
+  margin-bottom: 12px;
+}
+
+.game-row-2 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.scoreboard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+.remove-score {
+  margin-left: 12px;
+}
+
+.reset-game {
+  margin-top: 12px;
+}
