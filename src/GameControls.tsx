@@ -57,7 +57,7 @@ export function GameControls({
           <div className="score-controls">
             <div className="score-inputs">
               <p>Team 1 Score:</p>
-              <input name="team1Score" type="number" placeholder="0"ref={team1ScoreRef}/>
+              <input name="team1Score" type="number" placeholder="0" ref={team1ScoreRef}/>
               <p>Team 2 Score:</p>
               <input name="team2Score" type="number" placeholder="0" ref={team2ScoreRef}/>
             </div>

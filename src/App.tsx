@@ -16,6 +16,7 @@ function App() {
   const [isNumbersHidden, setIsNumbersHidden] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [gameScores, setGameScores] = useState<number[][]>([]);
+  const [nameMap, setNameMap] = useState<{[key: string]: string}>({});
 
   const handleTeamNameChange = (evt: ChangeEvent<HTMLInputElement>, setStateCallback: { (value: SetStateAction<string>): void; (value: SetStateAction<string>): void; (arg0: string): void; }) => {
     setStateCallback(evt.target.value);
@@ -52,12 +53,20 @@ function App() {
     setGameScores(newScores);
   }
 
+  const handleNameMapChange = (square: string, name: string) => {
+    setNameMap((prev) => ({
+      ...prev,
+      [square]: name,
+    }));
+  }
+
   const resetGame = () => {
     setTeamOneNumbers(Array.from(NUMBERS));
     setTeamTwoNumbers(Array.from(NUMBERS));
     setIsNumbersHidden(false);
     setIsDisabled(false);
     setGameScores([]);
+    setNameMap({});
   }
 
   return (
@@ -75,6 +84,8 @@ function App() {
               isNumbersHidden={isNumbersHidden}
               isDisabled={isDisabled}
               gameScores={gameScores}
+              nameMap={nameMap}
+              handleNameMapChange={handleNameMapChange}
             />
           </div>
         </div>
@@ -96,12 +107,16 @@ function App() {
           {gameScores.map((number, index) => {
             const ordinal = ["st", "nd", "rd", "th"];
             return (
-              <div>
-                {`${index + 1}${ordinal[index] ?? "th"}`}: home - {number[0]}, away -{" "}
-                {number[1]}
-                <button className="remove-score" onClick={() => handleRemoveScore(index)}>
-                  Remove
-                </button>
+              <div key={`${number}+${index}`}>
+                <div>
+                  {`${index + 1}${ordinal[index] ?? "th"}`}: home - {number[0]}, away -{" "}{number[1]}
+                  <button className="remove-score" onClick={() => handleRemoveScore(index)}>
+                    Remove
+                  </button>
+                </div>
+                <div>
+                  Winner: {nameMap[`${number[0]}-${number[1]}`] || "N/A"}
+                </div>
               </div>
             );
           })}

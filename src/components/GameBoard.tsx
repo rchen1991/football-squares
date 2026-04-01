@@ -7,6 +7,8 @@ type GameBoardProps = {
     isNumbersHidden?: boolean,
     isDisabled?: boolean,
     gameScores?: number[][],
+    nameMap: Record<string, string>,
+    handleNameMapChange: (square: string, name: string) => void,
 }
 
 export default function GameBoard({
@@ -14,15 +16,16 @@ export default function GameBoard({
     teamTwoNumbers,
     isNumbersHidden,
     isDisabled,
-    gameScores
+    gameScores,
+    nameMap,
+    handleNameMapChange
 }: GameBoardProps) {
-
     return (
         <div className="game-board">
             <div className="team-one-numbers">
                 {!isNumbersHidden && teamOneNumbers?.map((hNum) => {
                     return (
-                        <div className="team-one-number">{hNum}</div>
+                        <div className="team-one-number" key={`${hNum}`}>{hNum}</div>
                     )
                 })}
             </div>
@@ -30,7 +33,7 @@ export default function GameBoard({
                 <div className="team-two-numbers">
                     {!isNumbersHidden && teamTwoNumbers?.map((aNum) => {
                         return (
-                            <div className="team-two-number">{aNum}</div>
+                            <div className="team-two-number" key={`${aNum}`}>{aNum}</div>
                         )
                     })}
                 </div>
@@ -44,14 +47,18 @@ export default function GameBoard({
                                     gameScores?.forEach((score) => {
                                         if ((score[0] % 10) === teamOneNum && (score[1] % 10) === teamTwoNum) {
                                             isWinner = true;
-                                            console.log('found a score match', score);
                                         }
                                     });
 
                                     return (
                                         <GameSquare
+                                            key={`${teamOneNum}-${teamTwoNum}`}
                                             isDisabled={isDisabled}
                                             isWinner={isWinner}
+                                            teamOneNum={teamOneNum}
+                                            teamTwoNum={teamTwoNum}
+                                            nameMap={nameMap}
+                                            handleNameMapChange={(name) => handleNameMapChange(`${teamOneNum}-${teamTwoNum}`, name)}
                                         />
                                     )
                                 })}

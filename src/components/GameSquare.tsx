@@ -1,28 +1,30 @@
-import { useState } from 'react'
-
 import './GameSquare.css'
 
 type GameSquareProps = {
     isDisabled?: boolean,
     isWinner?: boolean,
+    teamOneNum?: number,
+    teamTwoNum?: number,
+    nameMap: Record<string, string>,
+    handleNameMapChange: (name: string) => void,
 }
 
 export default function GameSquare({
     isDisabled,
     isWinner,
+    teamOneNum,
+    teamTwoNum,
+    nameMap,
+    handleNameMapChange
 }: GameSquareProps) {
-    const [squareValue, setSquareValue] = useState('');
-    if (isWinner) {
-        setSquareValue('WINNER!');
-    }
 
     return (
             <input 
-                className="game-square-input"
+                className={`game-square-input ${isWinner ? 'winner' : ''}`}
                 name="game-square-input"
-                value={squareValue}
-                onChange={(e) => setSquareValue(e.target.value)}
                 disabled={isDisabled}
+                value={nameMap[`${teamOneNum}-${teamTwoNum}`] || ''}
+                onChange={(e) => handleNameMapChange(e.target.value)}
             />
     )
 }
