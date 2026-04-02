@@ -11,6 +11,8 @@ type GameBoardProps = {
     handleNameMapChange: (square: string, name: string) => void,
 }
 
+const GRID_SIZE = 10;
+
 export default function GameBoard({
     teamOneNumbers,
     teamTwoNumbers,
@@ -38,10 +40,12 @@ export default function GameBoard({
                     })}
                 </div>
                 <div className="game-board-grid">
-                    {teamTwoNumbers?.map((teamTwoNum, index) => {
+                    {Array.from({length: GRID_SIZE}, (_, rowIndex) => {
+                        const teamTwoNum = teamTwoNumbers?.[rowIndex];
                         return (
-                            <div className="game-board-row" key={`${index}+${teamTwoNum}`}>
-                                {teamOneNumbers?.map((teamOneNum) => {
+                            <div className="game-board-row" key={`${rowIndex}+${teamTwoNum}`}>
+                                {Array.from({length: GRID_SIZE}, (_, colIndex) => {
+                                    const teamOneNum = teamOneNumbers?.[colIndex];
                                     let isWinner = false;
 
                                     gameScores?.forEach((score) => {
@@ -52,13 +56,13 @@ export default function GameBoard({
 
                                     return (
                                         <GameSquare
-                                            key={`${teamOneNum}-${teamTwoNum}`}
+                                            key={`${rowIndex}-${colIndex}`}
                                             isDisabled={isDisabled}
                                             isWinner={isWinner}
-                                            teamOneNum={teamOneNum}
-                                            teamTwoNum={teamTwoNum}
+                                            row={rowIndex}
+                                            col={colIndex}
                                             nameMap={nameMap}
-                                            handleNameMapChange={(name) => handleNameMapChange(`${teamOneNum}-${teamTwoNum}`, name)}
+                                            handleNameMapChange={(name) => handleNameMapChange(`${rowIndex}-${colIndex}`, name)}
                                         />
                                     )
                                 })}

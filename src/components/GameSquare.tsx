@@ -3,8 +3,8 @@ import './GameSquare.css'
 type GameSquareProps = {
     isDisabled?: boolean,
     isWinner?: boolean,
-    teamOneNum?: number,
-    teamTwoNum?: number,
+    row?: number,
+    col?: number,
     nameMap: Record<string, string>,
     handleNameMapChange: (name: string) => void,
 }
@@ -12,8 +12,8 @@ type GameSquareProps = {
 export default function GameSquare({
     isDisabled,
     isWinner,
-    teamOneNum,
-    teamTwoNum,
+    row,
+    col,
     nameMap,
     handleNameMapChange
 }: GameSquareProps) {
@@ -23,7 +23,7 @@ export default function GameSquare({
                 className={`game-square-input ${isWinner ? 'winner' : ''}`}
                 name="game-square-input"
                 disabled={isDisabled}
-                value={nameMap[`${teamOneNum}-${teamTwoNum}`] || ''}
+                value={nameMap[`${row}-${col}`] || ''}
                 onChange={(e) => handleNameMapChange(e.target.value)}
             />
     )

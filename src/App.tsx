@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, type SetStateAction } from 'react';
+import { useState, useEffect, type ChangeEvent, type SetStateAction } from 'react';
 import TeamName from './components/TeamName';
 import GameBoard from './components/GameBoard';
 import { GameControls } from './GameControls';
@@ -16,7 +16,18 @@ function App() {
   const [isNumbersHidden, setIsNumbersHidden] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [gameScores, setGameScores] = useState<number[][]>([]);
-  const [nameMap, setNameMap] = useState<{[key: string]: string}>({});
+  const [nameMap, setNameMap] = useState<{[key: string]: string}>(() => {
+    const saved = sessionStorage.getItem('nameMap');
+    if (saved) {
+      return JSON.parse(saved);
+    } else {
+      return {};
+    }
+  });
+
+  useEffect(() => { 
+    sessionStorage.setItem('nameMap', JSON.stringify(nameMap));
+  }, [nameMap]);
 
   const handleTeamNameChange = (evt: ChangeEvent<HTMLInputElement>, setStateCallback: { (value: SetStateAction<string>): void; (value: SetStateAction<string>): void; (arg0: string): void; }) => {
     setStateCallback(evt.target.value);
@@ -106,6 +117,8 @@ function App() {
         <div className="scoreboard">
           {gameScores.map((number, index) => {
             const ordinal = ["st", "nd", "rd", "th"];
+            const teamOneIndex = teamOneNumbers?.indexOf(number[0] % 10) ?? -1;
+            const teamTwoIndex = teamTwoNumbers?.indexOf(number[1] % 10) ?? -1;
             return (
               <div key={`${number}+${index}`}>
                 <div>
@@ -115,7 +128,7 @@ function App() {
                   </button>
                 </div>
                 <div>
-                  Winner: {nameMap[`${number[0]}-${number[1]}`] || "N/A"}
+                  Winner: {nameMap[`${teamTwoIndex}-${teamOneIndex}`] || "N/A"}
                 </div>
               </div>
             );
